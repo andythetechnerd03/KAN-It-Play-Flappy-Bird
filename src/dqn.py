@@ -1,7 +1,7 @@
 import torch
 from torch import nn
 import torch.nn.functional as F
-from kan import KAN, KANLinear
+from src.kan import KAN, KANLinear
 
 class DeepQNetwork(nn.Module):
     """ Deep Q Network class for DQN algorithm

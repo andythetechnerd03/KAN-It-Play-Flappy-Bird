@@ -11,8 +11,8 @@ from datetime import datetime, timedelta
 import argparse
 from typing import List
 
-from dqn import DeepQNetwork
-from experience_replay import ExperienceReplay
+from src.dqn import DeepQNetwork
+from src.experience_replay import ExperienceReplay
 
 # For printing date and time
 DATE_FORMAT = "%m/%d %H:%M:%S"
@@ -24,6 +24,7 @@ os.makedirs(RUNS_DIR, exist_ok=True)
 matplotlib.use("Agg")
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
+print(f"Using {device} device")
 # Create the environment
 
 class Agent:

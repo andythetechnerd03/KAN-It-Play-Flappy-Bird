@@ -1,7 +1,8 @@
 # KAN It Play Flappy Bird?
 Credits: Dinh Ngoc An
+The reposiory is under construction. Please check back later for the finished version.
 
-## Introduction
+<!-- ## Introduction
 This is a simple project to test the capabilities of the [KAN](https://arxiv.org/abs/2404.19756) (Kolmogorov-Arnold Networks) model on a simple Flappy Bird game using Reinforcement Learning. Here, the RL algorithm used is Deep Q-Network (DQN) with the original Linear layer replaced with KAN model.
 
 ## Installation
@@ -66,7 +67,7 @@ The following table shows the comparison between the MLP model and the KAN model
 |------------------------------|-------------------------------|-------------------------------|
 | **Number of Hidden Units**   | 512                           | 32                            |
 | **Mean Reward at Latest Episode** | **2.71**                | 1.89                          |
-| **Maximum Episodes Taken**   | 103,504                       | **36,807**                    |
+| **Maximum Episodes Taken**   | 128,551                       | **365,852**                    |
 | **Average Time per Episode** | 0.22s                         | **0.12s**                     |
 
 ### Analysis
@@ -77,7 +78,7 @@ The MLP model, with 512 hidden units, exhibits higher mean rewards at the latest
 Yes, it KAN! The KAN model demonstrates its capability to play Flappy Bird effectively, achieving good performance with fewer hidden units and faster convergence compared to the MLP model. However, further experiments and optimizations can be conducted to enhance the model's performance and explore its full potential in Reinforcement Learning. And if you pit KAN and MLP against each other, the **MLP** model will win easily!
 
 ## Credits
-This project is inspired by the [Flappy Bird DQN](https://www.youtube.com/watch?v=Ejv8yv5-i0M) tutorial by [Tech with Tim](https://www.youtube.com/channel/UC4JX40jDee_tINbkjycV4Sg). The KAN model implementation is based on the [EfficientKAN](https://github.com/Blealtan/efficient-kan/tree/master).
+This project is inspired by the [Flappy Bird DQN](https://www.youtube.com/watch?v=Ejv8yv5-i0M) tutorial by [Tech with Tim](https://www.youtube.com/channel/UC4JX40jDee_tINbkjycV4Sg). The KAN model implementation is based on the [EfficientKAN](https://github.com/Blealtan/efficient-kan/tree/master). -->
 
 
 

@@ -19,9 +19,9 @@ class DeepQNetwork(nn.Module):
         self.num_actions = num_actions
         self.num_hidden_units = num_hidden_units
         
-        if model_type.lower() == "mlp":
+        if model_type.lower() == "kan":
             self.nn = KAN([self.num_states, self.num_hidden_units, self.num_actions])
-        elif model_type.lower() == "kan":
+        elif model_type.lower() == "mlp":
             self.nn = nn.Sequential(
                 nn.Linear(self.num_states, self.num_hidden_units),
                 nn.ReLU(),

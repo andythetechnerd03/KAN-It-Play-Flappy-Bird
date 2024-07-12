@@ -10,12 +10,13 @@ from matplotlib import pyplot as plt
 from datetime import datetime, timedelta
 import argparse
 from typing import List
+import torchsummary
 
 from src.dqn import DeepQNetwork
 from src.experience_replay import ExperienceReplay
 
 # For printing date and time
-DATE_FORMAT = "%m/%d %H:%M:%S"
+DATE_FORMAT = "%m-%d_%H-%M-%S"
 
 # Directory for saving run info
 RUNS_DIR = "runs"
@@ -28,11 +29,16 @@ print(f"Using {device} device")
 # Create the environment
 
 class Agent:
-    def __init__(self, env: str) -> None:
-        """ Initialize the agent
+    def __init__(self, env: str, output_dir: str=None) -> None:
+        """ Initialize the Agent class
         Args:
-            config_path (str): path to the configuration file
+            env (str): environment to run the agent
+            output_dir (str): output directory of log and model
         """
+        if output_dir is None: output_dir = f"_{datetime.now().strftime(DATE_FORMAT)}"
+        self.output_dir = os.path.join(RUNS_DIR, env+output_dir)
+        os.makedirs(self.output_dir, exist_ok=True)
+
         with open("config.yml", "r") as file:
             config = yaml.safe_load(file)
             self.config = config[env]
@@ -53,12 +59,11 @@ class Agent:
 
         # Training info
         self.loss_fn = torch.nn.MSELoss()
-        self.optimizer = None # Define optimizer when training  
 
         # Path to run info
-        self.LOG_FILE = os.path.join(RUNS_DIR, f"{env}.log")
-        self.MODEL_FILE = os.path.join(RUNS_DIR, f"{env}.pt")
-        self.GRAPH_FILE = os.path.join(RUNS_DIR, f"{env}.png")
+        self.LOG_FILE = os.path.join(self.output_dir, f"{env}.log")
+        self.MODEL_FILE = os.path.join(self.output_dir, f"{env}.pt")
+        self.GRAPH_FILE = os.path.join(self.output_dir, f"{env}.png")
 
 
     def run(self, train: bool = False, render: bool = False):
@@ -67,15 +72,13 @@ class Agent:
             train (bool): train the agent if True
             render (bool): render the environment if True
         """
+        # initialize training
         if train:
             start_time = datetime.now()
             last_graph_update_time = start_time
 
-            log_message = f"{start_time.strftime(DATE_FORMAT)}: Training started"
-            print(log_message)
-            with open(self.LOG_FILE, "w") as file:
-                file.write(log_message + "\n")
-
+            log_message = f"{start_time.strftime(DATE_FORMAT)}: Training started \nConfiguration: {self.config}"
+            self.log(log_message, save_to_file=True)
         
         # Create an instance of the environment
         env = gymnasium.make(self.env_id, render_mode="human" if render else None, **self.env_params)
@@ -88,12 +91,11 @@ class Agent:
         # Declare policy DQN
         policy_dqn = DeepQNetwork(num_states, num_actions,
                                   self.num_hidden_units, self.model_type).to(device)
-
+        print(torchsummary.summary(policy_dqn, (num_states,)))
         # If training mode, then declare replay buffer
         if train:
             # Declare experience replay buffer
             replay_buffer = ExperienceReplay(max_size=self.experience_replay_size)
-            epsilon_history = [] # Keep track of epsilon values over time
 
             # Initialize epsilon value
             epsilon = self.epsilon_start
@@ -114,6 +116,7 @@ class Agent:
         
         else:
             # Load model from directory
+            print(f"Loading model from {self.MODEL_FILE}")
             policy_dqn.load_state_dict(torch.load(self.MODEL_FILE))
 
             # Put model to eval mode
@@ -128,12 +131,7 @@ class Agent:
 
             while (not terminated and episode_reward < self.stop_on_reward):
                 # Next action
-                if train and np.random.rand() < epsilon: 
-                    action = env.action_space.sample()
-                    action = torch.tensor(action, dtype=torch.int64).to(device)
-                else:
-                    # Get action from policy, add batch dimension 
-                    with torch.no_grad(): action = policy_dqn(state.unsqueeze(dim=0)).squeeze().argmax()
+                action = self.choose_action_(env, state, policy_dqn, train, epsilon)
 
                 # Environment step
                 next_state, reward, terminated, _, info = env.step(action.item())
@@ -159,27 +157,24 @@ class Agent:
             if train:
                 if episode_reward > best_reward:
                     log_message = f"{datetime.now().strftime(DATE_FORMAT)}: Episode {episode}, New best reward: {episode_reward}"
-                    print(log_message)
-                    with open(self.LOG_FILE, "a") as file:
-                        file.write(log_message + "\n")
+                    self.log(log_message, save_to_file=True)
 
                     torch.save(policy_dqn.state_dict(), self.MODEL_FILE)
                     best_reward = episode_reward
 
-                # Update graph every x seconds
-                current_time = datetime.now()
-                if current_time - last_graph_update_time > timedelta(seconds=10):
+                # Print episode info after 1000 episodes
+                if episode % 1000 == 0:
+                    log_message = f"{datetime.now().strftime(DATE_FORMAT)}: Episode {episode}, Reward: {episode_reward}, Epsilon: {epsilon}"
+                    self.log(log_message, save_to_file=False)
                     self.save_graph(rewards_per_episode)
-                    last_graph_update_time = current_time
 
                 # If replay buffer has enough samples, then sample and train
                 if len(replay_buffer) > self.batch_size:
                     batch = replay_buffer.sample(self.batch_size)
                     self.optimize(batch, policy_dqn, target_dqn)
                     
-                    # Update epsilon value decay
+                    # Perform epsilon value decay
                     epsilon = max(self.epsilon_end, epsilon * self.epsilon_decay)
-                    epsilon_history.append(epsilon)
 
                     # Copy policy DQN parameters to target DQN after some steps and reset steps
                     if steps > self.network_update_frequency:
@@ -234,12 +229,50 @@ class Agent:
         plt.plot(mean_rewards, label="Mean reward (100 episodes)")
         plt.xlabel("Episodes")
         plt.ylabel("Reward")
-        plt.title("Reward per episode")
+        plt.title(f"Reward per episode - Model {self.model_type}")
         plt.legend()
 
         # Save figure
         plt.savefig(self.GRAPH_FILE)
         plt.close(fig)
+
+    def log(self, message: str, save_to_file: bool) -> None:
+        """ Log message to console and optionally to file
+        Args:
+            message (str): message to log
+            save_to_file (bool): save to file if True
+
+        Returns: None
+        """
+        print(message)
+        if save_to_file:
+            with open(self.LOG_FILE, "a") as file:
+                file.write(message + "\n")
+
+    @staticmethod
+    def choose_action_(env,
+                       state: torch.Tensor,
+                       policy_dqn: DeepQNetwork,
+                       train: bool, epsilon: float) -> torch.Tensor:
+        """ Choose action using epsilon-greedy algorithm
+        Args:
+            env (gym.Env): environment
+            state (torch.Tensor): state
+            policy_dqn (DeepQNetwork): policy DQN
+            train (bool): training mode
+            epsilon (float): epsilon value
+        
+        Returns:
+            torch.Tensor: action
+        """
+        if train and np.random.rand() < epsilon: 
+            action = env.action_space.sample()
+            action = torch.tensor(action, dtype=torch.int64).to(device)
+        else:
+            # Get action from policy, add batch dimension 
+            with torch.no_grad(): action = policy_dqn(state.unsqueeze(dim=0)).squeeze().argmax()
+        return action
+        
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Train or test DQN agent")

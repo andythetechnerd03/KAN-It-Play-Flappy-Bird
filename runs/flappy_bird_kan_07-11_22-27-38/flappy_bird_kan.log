@@ -1,0 +1,21 @@
+07-11_22-27-38: Training started 
+Configuration: {'env_id': 'FlappyBird-v0', 'experience_replay_size': 100000, 'batch_size': 32, 'epsilon_start': 1.0, 'epsilon_end': 0.05, 'epsilon_decay': 0.99995, 'network_update_frequency': 10, 'learning_rate': 0.0001, 'discount_factor': 0.99, 'stop_on_reward': 100000, 'model_params': {'model_type': 'kan', 'num_hidden_units': 32}, 'env_params': {'use_lidar': False}}
+07-11_22-27-38: Episode 0, New best reward: -8.099999999999998
+07-11_22-27-38: Episode 1, New best reward: -7.499999999999998
+07-11_22-27-38: Episode 5, New best reward: -6.899999999999999
+07-11_22-27-38: Episode 9, New best reward: -5.699999999999998
+07-11_22-27-39: Episode 31, New best reward: -5.099999999999998
+07-11_22-27-39: Episode 34, New best reward: -2.699999999999998
+07-11_22-27-53: Episode 1208, New best reward: -0.8999999999999986
+07-11_22-28-07: Episode 2109, New best reward: 2.6999999999999993
+07-11_22-28-49: Episode 3618, New best reward: 3.8999999999999986
+07-11_22-33-02: Episode 8566, New best reward: 4.299999999999997
+07-11_22-35-14: Episode 11372, New best reward: 4.4999999999999964
+07-11_22-36-11: Episode 12028, New best reward: 4.999999999999995
+07-11_22-36-47: Episode 12495, New best reward: 6.799999999999992
+07-11_22-38-13: Episode 13549, New best reward: 8.399999999999986
+07-11_23-14-13: Episode 40773, New best reward: 12.899999999999974
+07-11_23-21-42: Episode 46154, New best reward: 15.09999999999997
+07-11_23-26-40: Episode 49993, New best reward: 22.40000000000006
+07-11_23-35-25: Episode 55867, New best reward: 23.10000000000007
+07-11_23-36-39: Episode 56704, New best reward: 23.20000000000007

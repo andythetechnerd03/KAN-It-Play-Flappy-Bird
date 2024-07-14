@@ -251,6 +251,46 @@ class Agent:
             with open(self.LOG_FILE, "a") as file:
                 file.write(message + "\n")
 
+    def test(self, render: bool=True, num_episodes: int=10) -> None:
+        """ Test the agent
+        Args:
+            render (bool): display Pygame window if True
+            num_episodes (int): number of episodes to test
+        """
+        # Load model from directory
+        env = gymnasium.make(self.env_id, render_mode="human" if render else None, **self.env_params)
+        print("Initialized environment")
+        num_states = env.observation_space.shape[0] # Number of states
+        num_actions = env.action_space.n # Number of actions
+
+        # Declare policy DQN
+        policy_dqn = DeepQNetwork(num_states, num_actions,
+                                  self.num_hidden_units, self.model_type).to(device)
+        print(f"Loading model from {self.MODEL_FILE}")
+        policy_dqn.load_state_dict(torch.load(self.MODEL_FILE))
+        # Put model to eval mode
+        policy_dqn.eval()
+        rewards_per_episode = []
+        for episode in range(num_episodes):
+            state, _ = env.reset()
+            state = torch.tensor(state, dtype=torch.float32).to(device)
+            terminated = False
+            score = 0
+
+            while not terminated:
+                action = self.choose_action_(env, state, policy_dqn, train=False, epsilon=0.0)
+
+                next_state, reward, terminated, _, info = env.step(action.item())
+
+                state = torch.tensor(next_state, dtype=torch.float32).to(device)
+
+                if reward == 1: score += 1
+
+            rewards_per_episode.append(score)
+            print(f"Episode {episode}, Reward: {score}")
+
+        print(f"Average reward: {np.mean(rewards_per_episode)}")
+
     @staticmethod
     def choose_action_(env,
                        state: torch.Tensor,

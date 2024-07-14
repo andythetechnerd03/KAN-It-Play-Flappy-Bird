@@ -39,4 +39,4 @@ Configuration: {'env_id': 'FlappyBird-v0', 'experience_replay_size': 100000, 'ba
 07-13_01-46-16: Episode 604586, New best reward: 95.19999999999906
 07-13_04-08-08: Episode 855419, New best reward: 96.89999999999897
 07-13_05-29-05: Episode 987781, New best reward: 97.49999999999893
-Time taken: 8:19:21
+Time taken: 8:19:21, Average time: 33.38 episodes/s

@@ -1,4 +1,4 @@
-flappy_bird_mlp:
+flappy_bird_mlp_512:
     env_id: FlappyBird-v0
     experience_replay_size: 100000
     batch_size: 32
@@ -16,7 +16,43 @@ flappy_bird_mlp:
     env_params:
         use_lidar: False
 
-flappy_bird_kan:
+flappy_bird_mlp_256:
+    env_id: FlappyBird-v0
+    experience_replay_size: 100000
+    batch_size: 32
+    epsilon_start: 1.0
+    epsilon_end: 0.05
+    epsilon_decay: 0.99_99_5
+    network_update_frequency: 10
+    learning_rate: 0.0001
+    discount_factor: 0.99
+    stop_on_reward: 100000
+    max_episodes: 1000000
+    model_params:
+        model_type: mlp
+        num_hidden_units: 256
+    env_params:
+        use_lidar: False
+
+flappy_bird_mlp_128:
+    env_id: FlappyBird-v0
+    experience_replay_size: 100000
+    batch_size: 32
+    epsilon_start: 1.0
+    epsilon_end: 0.05
+    epsilon_decay: 0.99_99_5
+    network_update_frequency: 10
+    learning_rate: 0.0001
+    discount_factor: 0.99
+    stop_on_reward: 100000
+    max_episodes: 1000000
+    model_params:
+        model_type: mlp
+        num_hidden_units: 128
+    env_params:
+        use_lidar: False
+
+flappy_bird_kan_32:
     env_id: FlappyBird-v0
     experience_replay_size: 100000
     batch_size: 32
@@ -33,3 +69,21 @@ flappy_bird_kan:
         num_hidden_units: 32
     env_params:
         use_lidar: False
+
+flappy_bird_kan_16:
+    env_id: FlappyBird-v0
+    experience_replay_size: 100000
+    batch_size: 32
+    epsilon_start: 1.0
+    epsilon_end: 0.05
+    epsilon_decay: 0.99_99_5
+    network_update_frequency: 10
+    learning_rate: 0.0001
+    discount_factor: 0.99
+    stop_on_reward: 100000
+    max_episodes: 1000000
+    model_params:
+        model_type: kan
+        num_hidden_units: 16
+    env_params:
+        use_lidar: Fals

@@ -26,18 +26,19 @@ matplotlib.use("Agg")
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 print(f"Using {device} device")
+
+SEED=42
+torch.manual_seed(SEED)
+torch.cuda.manual_seed(SEED)
 # Create the environment
 
 class Agent:
-    def __init__(self, env: str, postfix_str: str=None) -> None:
+    def __init__(self, env: str) -> None:
         """ Initialize the Agent class
         Args:
             env (str): environment to run the agent
-            postfix_str (str): extra string added to the end of environment name.
         """
-        if postfix_str is None: postfix_str = f"_{datetime.now().strftime(DATE_FORMAT)}"
-        elif postfix_str[0] != "_": postfix_str = f"_{postfix_str}"
-        self.output_dir = os.path.join(RUNS_DIR, env+postfix_str)
+        self.output_dir = os.path.join(RUNS_DIR, env)
         os.makedirs(self.output_dir, exist_ok=True)
 
         with open("config.yml", "r") as file:
@@ -63,9 +64,9 @@ class Agent:
         self.loss_fn = torch.nn.MSELoss()
 
         # Path to run info
-        self.LOG_FILE = os.path.join(self.output_dir, f"{env+postfix_str}.log")
-        self.MODEL_FILE = os.path.join(self.output_dir, f"{env+postfix_str}.pt")
-        self.GRAPH_FILE = os.path.join(self.output_dir, f"{env+postfix_str}.png")
+        self.LOG_FILE = os.path.join(self.output_dir, f"{env}.log")
+        self.MODEL_FILE = os.path.join(self.output_dir, f"{env}.pt")
+        self.GRAPH_FILE = os.path.join(self.output_dir, f"{env}.png")
 
 
     def run(self, train: bool = False, render: bool = False):

@@ -17,12 +17,12 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Run the agent")
     parser.add_argument("--env", type=str, default="cartpole", help="environment to run the agent")
     parser.add_argument("--train", action="store_true", help="train the agent")
-    parser.add_argument("--output_dir", type=str, default=None, help="output directory of log and model")
+    parser.add_argument("--postfix", type=str, default=None, help="output directory of log and model")
     return parser.parse_args()
 
 if __name__ == "__main__":
     args = parse_args()
-    agent = Agent(args.env, args.output_dir)
+    agent = Agent(args.env, args.postfix)
     if args.train:
         agent.run(train=args.train, render=False)
     else:

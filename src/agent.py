@@ -10,7 +10,7 @@ from matplotlib import pyplot as plt
 from datetime import datetime, timedelta
 import argparse
 from typing import List
-import torchsummary
+from tqdm import tqdm
 
 from src.dqn import DeepQNetwork
 from src.experience_replay import ExperienceReplay
@@ -29,14 +29,15 @@ print(f"Using {device} device")
 # Create the environment
 
 class Agent:
-    def __init__(self, env: str, output_dir: str=None) -> None:
+    def __init__(self, env: str, postfix_str: str=None) -> None:
         """ Initialize the Agent class
         Args:
             env (str): environment to run the agent
-            output_dir (str): output directory of log and model
+            postfix_str (str): extra string added to the end of environment name.
         """
-        if output_dir is None: output_dir = f"_{datetime.now().strftime(DATE_FORMAT)}"
-        self.output_dir = os.path.join(RUNS_DIR, env+output_dir)
+        if postfix_str is None: postfix_str = f"_{datetime.now().strftime(DATE_FORMAT)}"
+        elif postfix_str[0] != "_": postfix_str = f"_{postfix_str}"
+        self.output_dir = os.path.join(RUNS_DIR, env+postfix_str)
         os.makedirs(self.output_dir, exist_ok=True)
 
         with open("config.yml", "r") as file:
@@ -56,14 +57,15 @@ class Agent:
         self.num_hidden_units = self.config["model_params"]["num_hidden_units"]
         self.model_type = self.config["model_params"]["model_type"]
         self.env_params = self.config.get("env_params",{})
+        self.max_episodes = self.config["max_episodes"]
 
         # Training info
         self.loss_fn = torch.nn.MSELoss()
 
         # Path to run info
-        self.LOG_FILE = os.path.join(self.output_dir, f"{env}.log")
-        self.MODEL_FILE = os.path.join(self.output_dir, f"{env}.pt")
-        self.GRAPH_FILE = os.path.join(self.output_dir, f"{env}.png")
+        self.LOG_FILE = os.path.join(self.output_dir, f"{env+postfix_str}.log")
+        self.MODEL_FILE = os.path.join(self.output_dir, f"{env+postfix_str}.pt")
+        self.GRAPH_FILE = os.path.join(self.output_dir, f"{env+postfix_str}.png")
 
 
     def run(self, train: bool = False, render: bool = False):
@@ -91,7 +93,6 @@ class Agent:
         # Declare policy DQN
         policy_dqn = DeepQNetwork(num_states, num_actions,
                                   self.num_hidden_units, self.model_type).to(device)
-        print(torchsummary.summary(policy_dqn, (num_states,)))
         # If training mode, then declare replay buffer
         if train:
             # Declare experience replay buffer
@@ -122,8 +123,9 @@ class Agent:
             # Put model to eval mode
             policy_dqn.eval()
 
-        # Run for infinite episodes, break when stop_on_reward is reached
-        for episode in itertools.count():
+        # Run for max_episodes episodes, break when stop_on_reward is reached
+        pbar = tqdm(range(self.max_episodes), desc="Episodes", unit="ep")
+        for episode in pbar:
             state, _ = env.reset()
             state = torch.tensor(state, dtype=torch.float32).to(device)
             terminated = False
@@ -152,6 +154,7 @@ class Agent:
                 state = next_state
 
             rewards_per_episode.append(episode_reward)
+            pbar.set_postfix({"Reward": episode_reward})
 
             # Save model if reward is greater than best reward
             if train:
@@ -162,10 +165,8 @@ class Agent:
                     torch.save(policy_dqn.state_dict(), self.MODEL_FILE)
                     best_reward = episode_reward
 
-                # Print episode info after 1000 episodes
+                # Update graph every 1000 episodes
                 if episode % 1000 == 0:
-                    log_message = f"{datetime.now().strftime(DATE_FORMAT)}: Episode {episode}, Reward: {episode_reward}, Epsilon: {epsilon}"
-                    self.log(log_message, save_to_file=False)
                     self.save_graph(rewards_per_episode)
 
                 # If replay buffer has enough samples, then sample and train

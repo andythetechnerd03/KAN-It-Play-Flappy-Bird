@@ -86,4 +86,4 @@ flappy_bird_kan_16:
         model_type: kan
         num_hidden_units: 16
     env_params:
-        use_lidar: Fals
+        use_lidar: False

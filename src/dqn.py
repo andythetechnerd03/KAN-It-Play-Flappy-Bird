@@ -1,32 +1,38 @@
 import torch
 from torch import nn
 import torch.nn.functional as F
+from typing import List
+
 from src.kan import KAN, KANLinear
 
 class DeepQNetwork(nn.Module):
     """ Deep Q Network class for DQN algorithm
     """
-    def __init__(self, num_states: int, num_actions: int, num_hidden_units: int=128,
+    def __init__(self, num_states: int, num_actions: int, hidden_units: List[int],
                  model_type: str = "mlp") -> None:
         super(DeepQNetwork, self).__init__()
         """ Initialize DeepQNetwork class
         Args:
             num_states (int): number of states
             num_actions (int): number of actions
-            num_hidden_units (int): number of hidden units
+            hidden_units (List[int]): array of hidden units. For example: [128,64] means
+                one hidden layer with 128 units followed by one hidden layer with 64 units.
         """
         self.num_states = num_states
         self.num_actions = num_actions
-        self.num_hidden_units = num_hidden_units
-        
+        self.hidden_units = hidden_units
+        assert isinstance(hidden_units, list), "hidden_units must be a list of hidden units"
+
+        params_arr = [self.num_states] + hidden_units + [self.num_actions]
         if model_type.lower() == "kan":
-            self.nn = KAN([self.num_states, self.num_hidden_units, self.num_actions])
+            self.nn = KAN(params_arr)
         elif model_type.lower() == "mlp":
-            self.nn = nn.Sequential(
-                nn.Linear(self.num_states, self.num_hidden_units),
-                nn.ReLU(),
-                nn.Linear(self.num_hidden_units, self.num_actions)
-            )
+            modules = []
+            # Add linear layers and ReLU (except the last layer)
+            for i in range(len(params_arr)-1):
+                modules.append(nn.Linear(params_arr[i], params_arr[i+1]))
+                if i != len(params_arr)-2: modules.append(nn.ReLU())
+            self.nn = nn.Sequential(*modules)
         else:
             raise ValueError("Model type not supported, please use 'mlp' or 'kan'")
 

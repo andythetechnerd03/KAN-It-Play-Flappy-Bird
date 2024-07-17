@@ -24,20 +24,21 @@ os.makedirs(RUNS_DIR, exist_ok=True)
 
 matplotlib.use("Agg")
 
-device = "cuda" if torch.cuda.is_available() else "cpu"
-print(f"Using {device} device")
-
 SEED=42
 torch.manual_seed(SEED)
 torch.cuda.manual_seed(SEED)
 # Create the environment
 
 class Agent:
-    def __init__(self, env: str) -> None:
+    def __init__(self, env: str, device: str="cpu") -> None:
         """ Initialize the Agent class
         Args:
             env (str): environment to run the agent
+            device (str): device to train the agent on, defaults to "cpu"
         """
+        self.device = device
+        assert device in ["cpu","cuda"], "device must be either cpu or cuda"
+
         self.output_dir = os.path.join(RUNS_DIR, env)
         os.makedirs(self.output_dir, exist_ok=True)
 
@@ -93,7 +94,7 @@ class Agent:
 
         # Declare policy DQN
         policy_dqn = DeepQNetwork(num_states, num_actions,
-                                  self.num_hidden_units, self.model_type).to(device)
+                                  self.num_hidden_units, self.model_type).to(self.device)
         # If training mode, then declare replay buffer
         if train:
             # Declare experience replay buffer
@@ -104,7 +105,7 @@ class Agent:
 
             # Declare target DQN and load parameters from policy DQN
             target_dqn = DeepQNetwork(num_states, num_actions,
-                                      self.num_hidden_units, self.model_type).to(device)
+                                      self.num_hidden_units, self.model_type).to(self.device)
             target_dqn.load_state_dict(policy_dqn.state_dict())
 
             # Track steps
@@ -128,7 +129,7 @@ class Agent:
         pbar = tqdm(range(self.max_episodes), desc="Episodes", unit="ep")
         for episode in pbar:
             state, _ = env.reset()
-            state = torch.tensor(state, dtype=torch.float32).to(device)
+            state = torch.tensor(state, dtype=torch.float32).to(self.device)
             terminated = False
             episode_reward = 0
 
@@ -143,8 +144,8 @@ class Agent:
                 episode_reward += reward
 
                 # Convert to tensors
-                next_state = torch.tensor(next_state, dtype=torch.float32).to(device)
-                reward = torch.tensor(reward, dtype=torch.float32).to(device)
+                next_state = torch.tensor(next_state, dtype=torch.float32).to(self.device)
+                reward = torch.tensor(reward, dtype=torch.float32).to(self.device)
 
                 # If training mode, then add to replay buffer
                 if train:
@@ -193,11 +194,11 @@ class Agent:
         states, actions, rewards, next_states, terminations = zip(*batch)
 
         # Convert to batch tensors for faster computation
-        states = torch.stack(states).to(device)
-        actions = torch.stack(actions).to(device)
-        rewards = torch.stack(rewards).to(device)
-        next_states = torch.stack(next_states).to(device)
-        terminations = torch.tensor(terminations, dtype=torch.float32).to(device)
+        states = torch.stack(states).to(self.device)
+        actions = torch.stack(actions).to(self.device)
+        rewards = torch.stack(rewards).to(self.device)
+        next_states = torch.stack(next_states).to(self.device)
+        terminations = torch.tensor(terminations, dtype=torch.float32).to(self.device)
 
         # Get Q values
         q_values = policy_dqn(states)
@@ -267,7 +268,7 @@ class Agent:
 
         # Declare policy DQN
         policy_dqn = DeepQNetwork(num_states, num_actions,
-                                  self.num_hidden_units, self.model_type).to(device)
+                                  self.num_hidden_units, self.model_type).to(self.device)
         print(f"Loading model from {self.MODEL_FILE}")
         policy_dqn.load_state_dict(torch.load(self.MODEL_FILE))
         # Put model to eval mode
@@ -275,7 +276,7 @@ class Agent:
         rewards_per_episode = []
         for episode in tqdm(range(num_episodes), desc="Episodes", unit="ep"):
             state, _ = env.reset()
-            state = torch.tensor(state, dtype=torch.float32).to(device)
+            state = torch.tensor(state, dtype=torch.float32).to(self.device)
             terminated = False
             score = 0
 
@@ -284,15 +285,15 @@ class Agent:
 
                 next_state, reward, terminated, _, info = env.step(action.item())
 
-                state = torch.tensor(next_state, dtype=torch.float32).to(device)
+                state = torch.tensor(next_state, dtype=torch.float32).to(self.device)
 
                 if reward == 1: score += 1
 
             rewards_per_episode.append(score)
 
         return rewards_per_episode
-    @staticmethod
-    def choose_action_(env,
+    
+    def choose_action_(self, env: gymnasium.Env,
                        state: torch.Tensor,
                        policy_dqn: DeepQNetwork,
                        train: bool, epsilon: float) -> torch.Tensor:
@@ -309,7 +310,7 @@ class Agent:
         """
         if train and np.random.rand() < epsilon: 
             action = env.action_space.sample()
-            action = torch.tensor(action, dtype=torch.int64).to(device)
+            action = torch.tensor(action, dtype=torch.int64).to(self.device)
         else:
             # Get action from policy, add batch dimension 
             with torch.no_grad(): action = policy_dqn(state.unsqueeze(dim=0)).squeeze().argmax()

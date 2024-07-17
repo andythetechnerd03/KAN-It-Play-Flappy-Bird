@@ -251,11 +251,13 @@ class Agent:
             with open(self.LOG_FILE, "a") as file:
                 file.write(message + "\n")
 
-    def test(self, render: bool=True, num_episodes: int=10) -> None:
+    def test(self, render: bool=True, num_episodes: int=10) -> List[int]:
         """ Test the agent
         Args:
             render (bool): display Pygame window if True
             num_episodes (int): number of episodes to test
+        
+        Returns: List[int]: rewards per episode
         """
         # Load model from directory
         env = gymnasium.make(self.env_id, render_mode="human" if render else None, **self.env_params)
@@ -271,7 +273,7 @@ class Agent:
         # Put model to eval mode
         policy_dqn.eval()
         rewards_per_episode = []
-        for episode in range(num_episodes):
+        for episode in tqdm(range(num_episodes), desc="Episodes", unit="ep"):
             state, _ = env.reset()
             state = torch.tensor(state, dtype=torch.float32).to(device)
             terminated = False
@@ -287,10 +289,8 @@ class Agent:
                 if reward == 1: score += 1
 
             rewards_per_episode.append(score)
-            print(f"Episode {episode}, Reward: {score}")
 
-        print(f"Average reward: {np.mean(rewards_per_episode)}")
-
+        return rewards_per_episode
     @staticmethod
     def choose_action_(env,
                        state: torch.Tensor,

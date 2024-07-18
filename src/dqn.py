@@ -3,7 +3,8 @@ from torch import nn
 import torch.nn.functional as F
 from typing import List
 
-from src.kan import KAN, KANLinear
+from src.kan.kan import KAN, KANLinear
+from src.kan.fasterkan import FasterKAN, FasterKANvolver
 
 class DeepQNetwork(nn.Module):
     """ Deep Q Network class for DQN algorithm
@@ -24,8 +25,10 @@ class DeepQNetwork(nn.Module):
         assert isinstance(hidden_units, list), "hidden_units must be a list of hidden units"
 
         params_arr = [self.num_states] + hidden_units + [self.num_actions]
-        if model_type.lower() == "kan":
+        if model_type.lower() == "effkan":
             self.nn = KAN(params_arr)
+        elif model_type.lower() == "fasterkan":
+            self.nn = FasterKAN(params_arr)
         elif model_type.lower() == "mlp":
             modules = []
             # Add linear layers and ReLU (except the last layer)

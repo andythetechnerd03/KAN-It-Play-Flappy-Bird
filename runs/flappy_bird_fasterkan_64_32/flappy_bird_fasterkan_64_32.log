@@ -1,0 +1,36 @@
+07-18_09-45-31: Training started 
+Configuration: {'env_id': 'FlappyBird-v0', 'experience_replay_size': 100000, 'batch_size': 32, 'epsilon_start': 1.0, 'epsilon_end': 0.05, 'epsilon_decay': 0.99995, 'network_update_frequency': 10, 'learning_rate': 0.0001, 'discount_factor': 0.99, 'stop_on_reward': 100000, 'max_episodes': 1000000, 'model_params': {'model_type': 'fasterkan', 'num_hidden_units': [64, 32]}, 'env_params': {'use_lidar': False}}
+07-18_09-45-32: Episode 0, New best reward: -8.099999999999998
+07-18_09-45-32: Episode 3, New best reward: -6.299999999999999
+07-18_09-45-32: Episode 7, New best reward: -5.699999999999998
+07-18_09-45-32: Episode 29, New best reward: -4.499999999999998
+07-18_09-45-32: Episode 43, New best reward: -3.899999999999998
+07-18_09-45-32: Episode 67, New best reward: 0.3000000000000007
+07-18_09-45-34: Episode 417, New best reward: 3.299999999999999
+07-18_09-45-56: Episode 4052, New best reward: 3.8999999999999986
+07-18_09-46-54: Episode 10965, New best reward: 4.4999999999999964
+07-18_09-47-00: Episode 11639, New best reward: 4.799999999999995
+07-18_09-47-33: Episode 14802, New best reward: 4.999999999999995
+07-18_09-48-09: Episode 18051, New best reward: 6.099999999999994
+07-18_09-48-24: Episode 19320, New best reward: 6.799999999999992
+07-18_09-49-20: Episode 23895, New best reward: 8.699999999999985
+07-18_09-50-57: Episode 31196, New best reward: 9.199999999999983
+07-18_09-51-14: Episode 32467, New best reward: 9.299999999999983
+07-18_09-51-32: Episode 33768, New best reward: 10.99999999999998
+07-18_09-51-53: Episode 35202, New best reward: 13.599999999999971
+07-18_09-53-36: Episode 42067, New best reward: 13.89999999999997
+07-18_09-54-11: Episode 44301, New best reward: 15.399999999999974
+07-18_09-54-36: Episode 45838, New best reward: 26.90000000000011
+07-18_09-56-25: Episode 52224, New best reward: 28.100000000000126
+07-18_09-56-38: Episode 52976, New best reward: 38.60000000000023
+07-18_09-57-33: Episode 55909, New best reward: 40.90000000000026
+07-18_09-57-44: Episode 56428, New best reward: 45.90000000000032
+07-18_09-58-28: Episode 58531, New best reward: 50.40000000000037
+07-18_10-01-12: Episode 65424, New best reward: 62.5000000000005
+07-18_10-01-38: Episode 66454, New best reward: 66.90000000000033
+07-18_10-05-06: Episode 74787, New best reward: 67.10000000000032
+07-18_10-18-12: Episode 105897, New best reward: 79.09999999999975
+07-18_10-22-54: Episode 117010, New best reward: 83.59999999999955
+07-18_11-25-48: Episode 263209, New best reward: 102.79999999999869
+07-18_12-39-42: Episode 431659, New best reward: 102.89999999999868
+Time taken: 7:41:10, Average time: 36.14 episodes/s

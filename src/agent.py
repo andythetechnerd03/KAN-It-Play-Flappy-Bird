@@ -252,11 +252,12 @@ class Agent:
             with open(self.LOG_FILE, "a") as file:
                 file.write(message + "\n")
 
-    def test(self, render: bool=True, num_episodes: int=10) -> List[int]:
+    def test(self, render: bool=True, num_episodes: int=10, print_score: bool=False) -> List[int]:
         """ Test the agent
         Args:
             render (bool): display Pygame window if True
             num_episodes (int): number of episodes to test
+            print_score (bool): whether to print score after each episode, defaults to False
         
         Returns: List[int]: rewards per episode
         """
@@ -289,8 +290,10 @@ class Agent:
 
                 if reward == 1: score += 1
 
+            if print_score: print("Score:", score)
             rewards_per_episode.append(score)
 
+        if print_score: print(f"High score: {max(rewards_per_episode)}")
         return rewards_per_episode
     
     def choose_action_(self, env: gymnasium.Env,

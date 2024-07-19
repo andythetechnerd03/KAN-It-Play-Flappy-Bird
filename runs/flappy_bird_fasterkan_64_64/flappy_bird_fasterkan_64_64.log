@@ -38,3 +38,4 @@ Configuration: {'env_id': 'FlappyBird-v0', 'experience_replay_size': 100000, 'ba
 07-19_13-48-50: Episode 66188, New best reward: 76.5999999999999
 07-19_13-50-00: Episode 68767, New best reward: 88.49999999999933
 07-19_13-53-07: Episode 75508, New best reward: 94.6999999999991
+07-19_16-36-10: Episode 431105, New best reward: 101.89999999999874

@@ -88,11 +88,7 @@ flappy_bird_fasterkan_32:
     env_params:
         use_lidar: False
 
-<<<<<<< HEAD
 flappy_bird_fasterkan_128_64:
-=======
-flappy_bird_fasterkan_64_32:
->>>>>>> 7955d80ecf58a288677ded19e83e1de8a023e20a
     env_id: FlappyBird-v0
     experience_replay_size: 100000
     batch_size: 32
@@ -106,10 +102,7 @@ flappy_bird_fasterkan_64_32:
     max_episodes: 1000000
     model_params:
         model_type: fasterkan
-<<<<<<< HEAD
         num_hidden_units: [128,64]
-=======
-        num_hidden_units: [64,32]
     env_params:
         use_lidar: False
 
@@ -128,7 +121,6 @@ flappy_bird_fasterkan_64_64:
     model_params:
         model_type: fasterkan
         num_hidden_units: [64,64]
->>>>>>> 7955d80ecf58a288677ded19e83e1de8a023e20a
     env_params:
         use_lidar: False
 

@@ -1,0 +1,33 @@
+07-19_21-26-26: Training started 
+Configuration: {'env_id': 'FlappyBird-v0', 'experience_replay_size': 100000, 'batch_size': 32, 'epsilon_start': 1.0, 'epsilon_end': 0.05, 'epsilon_decay': 0.99995, 'network_update_frequency': 10, 'learning_rate': 0.0001, 'discount_factor': 0.99, 'stop_on_reward': 100000, 'max_episodes': 1000000, 'model_params': {'model_type': 'fasterkan', 'num_hidden_units': [128, 128]}, 'env_params': {'use_lidar': False}}
+07-19_21-26-27: Episode 0, New best reward: -8.7
+07-19_21-26-28: Episode 1, New best reward: -8.099999999999998
+07-19_21-26-28: Episode 8, New best reward: -7.499999999999998
+07-19_21-26-28: Episode 9, New best reward: -5.699999999999998
+07-19_21-26-29: Episode 105, New best reward: -5.099999999999998
+07-19_21-26-29: Episode 116, New best reward: -3.299999999999998
+07-19_21-26-30: Episode 123, New best reward: -2.099999999999998
+07-19_21-26-33: Episode 387, New best reward: 1.5
+07-19_21-26-53: Episode 1529, New best reward: 3.8999999999999986
+07-19_21-31-28: Episode 10927, New best reward: 4.899999999999995
+07-19_21-34-13: Episode 15321, New best reward: 4.999999999999995
+07-19_21-34-34: Episode 15874, New best reward: 5.999999999999995
+07-19_21-34-54: Episode 16377, New best reward: 6.599999999999987
+07-19_21-36-53: Episode 19200, New best reward: 8.399999999999986
+07-19_21-41-57: Episode 25740, New best reward: 11.29999999999998
+07-19_21-47-51: Episode 32800, New best reward: 13.99999999999997
+07-19_21-52-09: Episode 37611, New best reward: 17.90000000000001
+07-19_21-59-28: Episode 45189, New best reward: 20.200000000000028
+07-19_22-00-01: Episode 45714, New best reward: 22.700000000000063
+07-19_22-00-19: Episode 46000, New best reward: 36.40000000000021
+07-19_22-09-29: Episode 53629, New best reward: 37.60000000000023
+07-19_22-11-42: Episode 55296, New best reward: 40.90000000000026
+07-19_22-14-27: Episode 57211, New best reward: 43.70000000000029
+07-19_22-16-15: Episode 58398, New best reward: 46.70000000000033
+07-19_22-17-53: Episode 59448, New best reward: 46.90000000000033
+07-19_22-18-44: Episode 60004, New best reward: 54.90000000000042
+07-19_22-26-45: Episode 66131, New best reward: 92.39999999999917
+07-19_23-09-47: Episode 98445, New best reward: 104.49999999999865
+07-20_05-27-30: Episode 365735, New best reward: 108.89999999999846
+07-20_18-33-26: Episode 869790, New best reward: 121.19999999999787
+Time taken: 25:00:57, Average time: 11.10 episodes/s

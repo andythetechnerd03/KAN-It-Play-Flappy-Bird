@@ -28,4 +28,4 @@ if __name__ == "__main__":
     if args.train:
         agent.run(train=args.train, render=False)
     else:
-        agent.test(num_episodes=1000, render=args.render, print_score=True)
+        agent.test(num_episodes=1, render=args.render, print_score=True)

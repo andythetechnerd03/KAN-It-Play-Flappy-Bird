@@ -106,6 +106,24 @@ flappy_bird_fasterkan_128_64:
     env_params:
         use_lidar: False
 
+flappy_bird_fasterkan_64_64:
+    env_id: FlappyBird-v0
+    experience_replay_size: 100000
+    batch_size: 32
+    epsilon_start: 1.0
+    epsilon_end: 0.05
+    epsilon_decay: 0.99_99_5
+    network_update_frequency: 10
+    learning_rate: 0.0001
+    discount_factor: 0.99
+    stop_on_reward: 100000
+    max_episodes: 1000000
+    model_params:
+        model_type: fasterkan
+        num_hidden_units: [64,64]
+    env_params:
+        use_lidar: False
+
 flappy_bird_fasterkan_128_128:
     env_id: FlappyBird-v0
     experience_replay_size: 100000

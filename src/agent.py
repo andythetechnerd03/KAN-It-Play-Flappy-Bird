@@ -11,6 +11,7 @@ from datetime import datetime, timedelta
 import argparse
 from typing import List
 from tqdm import tqdm
+from pygame_screen_record import ScreenRecorder
 
 from src.dqn import DeepQNetwork
 from src.experience_replay import ExperienceReplay
@@ -41,6 +42,7 @@ class Agent:
 
         self.output_dir = os.path.join(RUNS_DIR, env)
         os.makedirs(self.output_dir, exist_ok=True)
+        self.env = env
 
         with open("config.yml", "r") as file:
             config = yaml.safe_load(file)
@@ -281,6 +283,11 @@ class Agent:
             terminated = False
             score = 0
 
+            # Initialize the recorder
+            if render:
+                recorder = ScreenRecorder(fps=30)
+                recorder.start_rec()
+
             while not terminated:
                 action = self.choose_action_(env, state, policy_dqn, train=False, epsilon=0.0)
 
@@ -289,6 +296,11 @@ class Agent:
                 state = torch.tensor(next_state, dtype=torch.float32).to(self.device)
 
                 if reward == 1: score += 1
+
+            # Stop recording and send output to streamlit
+            if render:
+                recorder.stop_rec()
+                recorder.save_recording(f"videos/{self.env}.mp4")
 
             if print_score: print("Score:", score)
             rewards_per_episode.append(score)

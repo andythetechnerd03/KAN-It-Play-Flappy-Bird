@@ -1,0 +1,9 @@
+flappy_bird_gymnasium==0.4.0
+gymnasium==0.29.1
+matplotlib==3.7.2
+numpy==2.0.1
+pygame_screen_record==0.1.1
+PyYAML==6.0.1
+streamlit==1.26.0
+torch==2.0.1
+tqdm==4.66.4

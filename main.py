@@ -20,6 +20,7 @@ def parse_args():
     parser.add_argument("--device", type=str, default="cpu", help="device to train/test agent on, defaults to cpu")
     parser.add_argument("--render", action="store_true", help="whether to render the environment (a.k.a. display the gameplay),\
                         use it for testing only.")
+    parser.add_argument("--num_episodes", type=int, default=1, help="number of episodes to test the agent on, not working on train mode")
     return parser.parse_args()
 
 if __name__ == "__main__":
@@ -28,4 +29,4 @@ if __name__ == "__main__":
     if args.train:
         agent.run(train=args.train, render=False)
     else:
-        agent.test(num_episodes=1, render=args.render, print_score=True)
+        agent.test(num_episodes=args.num_episodes, render=args.render, print_score=True)

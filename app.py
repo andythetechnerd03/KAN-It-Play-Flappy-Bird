@@ -7,7 +7,7 @@ import os
 
 from src.agent import Agent
 
-def get_models(path: str="runs") -> List[str]:
+def get_models(path: str="videos") -> List[str]:
     """ Get the models from the specified path.
 
     Args:
@@ -17,39 +17,38 @@ def get_models(path: str="runs") -> List[str]:
         List[str]: List of models by folder name.
     """
     models = []
-    for folder in os.listdir(path):
-        if os.path.isdir(os.path.join(path, folder)):
-            models.append(folder)
+    for file in os.listdir(path):
+        if file.endswith(".mp4"):
+            models.append(file.split(".")[0])
     return models
 
 def app():
     """ Streamlit app for the project.
     """
-    st.title("How High KAN You Fly?")
-    st.write("This is a fun experiment where a new KAN model will be used to play the classic\
+    # Make 2 columns
+    st.set_page_config(layout="wide")
+    col1, col2 = st.columns([0.75, 0.25])
+    col1.title("How High KAN You Fly?")
+    col1.write("This is a fun experiment where a new Kolmogorov-Arnold Network (KAN) model will be used to play the classic\
              Flappy Bird game using Deep Q-Learning.")
     models = get_models()
-    model = st.selectbox("Select a model", list(models.keys()))
-    st.write(f"Selected model: {model}")
+    model = col1.selectbox("Select a model", list(models))
+    col1.write(f"Selected model: {model}")
     
     # Run the model
-    if st.button("Run model"):
-        agent = Agent("flappybird", device="cpu")
-        agent.load_model(model)
-        agent.test(num_episodes=1, render=True, print_score=True)
-        load_video(model)
+    if col1.button("Run model"):
+        load_video(model, col2)
 
-def load_video(model_name: str):
+def load_video(model_name: str, col: st.columns):
     """ Load the video of the model playing the game.
 
     Args:
         model_name (str): Name of the model.
     """
     video_url = f"videos/{model_name}.mp4"
-    st.video(video_url)
+    col.video(video_url)
+
 
 if __name__ == "__main__":
-
-    models = get_models()
-    print(models)
+    app()
     

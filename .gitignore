@@ -1,5 +1,1 @@
-src/kan.py
-test.ipynb
-videos/flappy_bird_fasterkan_128_128.mp4
-videos/flappy_bird_fasterkan_64_64.mp4
-videos/flappy_bird_mlp_512_256.mp4
+videos/*.mp4

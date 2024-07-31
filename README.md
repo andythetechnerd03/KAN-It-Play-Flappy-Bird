@@ -7,6 +7,7 @@ This is a simple project to test the capabilities of the [KAN](https://arxiv.org
 
 ## Installation
 1. Clone the repository
+
 Clone the repository using the following command:
 ```bash
 git clone https://github.com/andythetechnerd03/KAN-It-Play-Flappy-Bird.git

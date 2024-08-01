@@ -68,7 +68,7 @@ The following plots show the performance of the KAN and MLP models on the Flappy
 ![Training results](results/dqn_training_best_reward_by_episodes.png)
 
 ### Number of Parameters vs Performance
-The following plot shows the number of parameters in the KAN and MLP models and their performance on the Flappy Bird game (measured by high score after 1000 runs). The KAN model produces more parameters from relatively fewer units compared to the MLP model, which explains why its best model is only a third in high score of MLP's best model (...that I trained, ofc!).
+The following plot shows the number of parameters in the KAN and MLP models and their performance on the Flappy Bird game (measured by high score after 1000 runs). The KAN model produces more parameters from relatively fewer units compared to the MLP model, which explains why its best model (KAN with `[12,128,128,2]` layer) is only a third in high score compared to MLP's best model (MLP with `[12,512,256,2]` layer), with both having roughly 140K parameters.
 ![Number of Parameters vs Performance](results/num_params_vs_high_score.png)
 
 ### High Score Boxplot

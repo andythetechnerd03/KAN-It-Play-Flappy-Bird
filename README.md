@@ -75,8 +75,7 @@ The following results are generated using the following hyperparameters:
 | Learning Rate | 0.001 |
 | Discount Factor | 0.99 |
 | Stop on Reward | 1000 |
-| Model Type | 'kan' or 'mlp' |
-| Number of Hidden Units | [12,128,128,2] for KAN and [12,512,256,2] for MLP |
+| Number of States/Actions | 12 and 2 |
 | Max Episodes | 1000000 |
 
 
@@ -110,6 +109,7 @@ Yes, it KAN! :blush:
 - [ ] Experiment with KAN Convolution Layer (`KANVolver`). To do this, we need the gameplay image as state instead of 12 coordinated states.
 - [ ] Experiment with more complex environments, such as adaptive learning rate (Cosine, etc.).
 - [ ] Compare CPU and GPU training and inference speed.
+- [ ] Try with a LIDAR version of Flappy Bird environment (180 states instead of 12).
 
 ## Credits
 This project is inspired by the [Flappy Bird DQN](https://www.youtube.com/watch?v=Ejv8yv5-i0M) tutorial by [Tech with Tim](https://www.youtube.com/channel/UC4JX40jDee_tINbkjycV4Sg).

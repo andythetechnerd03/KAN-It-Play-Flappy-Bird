@@ -1,6 +1,5 @@
 # KAN It Play Flappy Bird?
 Credits: Dinh Ngoc An
-The reposiory is under construction. Please check back later for the finished version.
 
 ## Introduction
 This is a simple project to test the capabilities of the [KAN](https://arxiv.org/abs/2404.19756) (Kolmogorov-Arnold Networks) model on a simple Flappy Bird game using Reinforcement Learning. Here, the RL algorithm used is Deep Q-Network (DQN) with the original Linear layer replaced with KAN model. For efficiency comparison, the original MLP model is also implemented for comparison, and an efficient implementation of KAN - [FasterKAN](https://github.com/AthanasiosDelis/faster-kan) will be used.

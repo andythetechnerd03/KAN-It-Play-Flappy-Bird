@@ -70,11 +70,11 @@ The following results are generated using the following hyperparameters:
 | Batch Size | 32 |
 | Epsilon Start | 1.0 |
 | Epsilon End | 0.01 |
-| Epsilon Decay | 0.995 |
+| Epsilon Decay | 0.99995 |
 | Network Update Frequency | 1000 |
-| Learning Rate | 0.001 |
+| Learning Rate | 0.0001 |
 | Discount Factor | 0.99 |
-| Stop on Reward | 1000 |
+| Stop on Reward | 100000 |
 | Number of States/Actions | 12 and 2 |
 | Max Episodes | 1000000 |
 

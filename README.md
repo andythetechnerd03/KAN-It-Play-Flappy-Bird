@@ -63,6 +63,23 @@ name_of_train_instance:
 ```
 
 ## Experiment results and Analysis
+The following results are generated using the following hyperparameters:
+| Hyperparameter | Value |
+|----------------|-------|
+| Experience Replay Size | 10000 |
+| Batch Size | 32 |
+| Epsilon Start | 1.0 |
+| Epsilon End | 0.01 |
+| Epsilon Decay | 0.995 |
+| Network Update Frequency | 1000 |
+| Learning Rate | 0.001 |
+| Discount Factor | 0.99 |
+| Stop on Reward | 1000 |
+| Model Type | 'kan' or 'mlp' |
+| Number of Hidden Units | [12,128,128,2] for KAN and [12,512,256,2] for MLP |
+| Max Episodes | 1000000 |
+
+
 ### Training results
 The following plots show the performance of the KAN and MLP models on the Flappy Bird game. The models were trained for 1000 episodes, and the mean rewards were calculated for each episode.
 ![Training results](results/dqn_training_best_reward_by_episodes.png)

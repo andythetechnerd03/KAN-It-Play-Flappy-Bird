@@ -77,8 +77,10 @@ The following boxplot shows the high score distribution of the KAN and MLP model
 ## Gameplay
 So how do MLP and KAN play Flappy Bird? Let's see the gameplay of the best models of each model type:
 - MLP model with `[12,512,256,2]` hidden units. Note that the game goes on quite smoothly, as the bird flies through the pipes with ease:
+
 ![MLP Gameplay](videos/flappy_bird_mlp_512_256.gif)
 - FasterKAN model with `[12,128,128,2]` hidden units. The bird also flies through the pipes with ease, but in some occasions the bird seems to fly closer to the pipes, increasing the risk of hitting them:
+
 ![KAN Gameplay](videos/flappy_bird_fasterkan_128_128.gif)
 
 Overall, both models can play Flappy Bird effectively, with the MLP model outperforming KAN model on paper. However, the KAN model demonstrates its capability to play the game effectively, achieving good performance with fewer hidden units and faster convergence compared to the MLP model with equivalent parameters count.

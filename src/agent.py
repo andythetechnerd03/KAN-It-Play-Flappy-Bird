@@ -1,3 +1,7 @@
+"""
+Code inspired by Tech With Tim
+"""
+
 import flappy_bird_gymnasium
 import gymnasium
 import torch

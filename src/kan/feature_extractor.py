@@ -1,3 +1,7 @@
+"""
+Code courtesy of FasterKAN by AthanasiosDelis - https://github.com/AthanasiosDelis/faster-kan/tree/master/fasterkan
+"""
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F

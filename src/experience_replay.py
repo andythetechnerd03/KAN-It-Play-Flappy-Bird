@@ -1,5 +1,6 @@
 """
 This file contains the implementation of the experience replay buffer.
+Code inspired by Tech With Tim.
 """
 from collections import deque
 import numpy as np

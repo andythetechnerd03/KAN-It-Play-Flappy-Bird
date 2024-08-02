@@ -1,3 +1,7 @@
+"""
+Code courtesy of EfficientKAN repository by Blealtan - https://github.com/Blealtan/efficient-kan/tree/master
+"""
+
 import torch
 import torch.nn.functional as F
 import math

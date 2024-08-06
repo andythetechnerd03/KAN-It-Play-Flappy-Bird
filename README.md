@@ -116,6 +116,8 @@ Yes, it KAN! :blush:
 ## Credits
 This project is inspired by the [Flappy Bird DQN](https://www.youtube.com/watch?v=Ejv8yv5-i0M) tutorial by [Tech with Tim](https://www.youtube.com/channel/UC4JX40jDee_tINbkjycV4Sg).
 
+Thank you also to FPT Software for providing me the necessary hardware to train the models overnight while I'm not working.
+
 
 
 
